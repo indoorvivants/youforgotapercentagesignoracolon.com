@@ -10,6 +10,17 @@ import scalacss.ScalatagsCss._
 import subatomic.Markdown
 import com.vladsch.flexmark.ast.AutoLink
 
+import com.vladsch.flexmark.ext.autolink.AutolinkExtension
+
+lazy val md = Markdown(
+  AutolinkExtension.create()
+)
+
+def hash(ident: String) = {
+  import scalatags.Text.all._
+  a(Styles.hash, href := s"#$ident", "#")
+}
+
 case class Tool(name: String, link: String, page: os.Path) {
   import scalatags.Text.all._
   private val safeName = name
@@ -27,22 +38,12 @@ case class Tool(name: String, link: String, page: os.Path) {
     h2(
       id := safeName,
       hash(safeName),
-      " I'm using ",
+      "I'm using ",
       a(Styles.toolLink, href := link, name)
     ),
-    raw(Tool.md.renderToString(page)),
+    raw(md.renderToString(page)),
     p(a(Styles.editMeLink, href := editPath, "edit me on github"))
   )
-  private def hash(id: String) = a(Styles.hash, href := s"#$id", "#")
-}
-
-object Tool {
-  import com.vladsch.flexmark.ext.autolink.AutolinkExtension
-
-  private lazy val md = Markdown(
-    AutolinkExtension.create()
-  )
-
 }
 
 val tools =
@@ -91,7 +92,9 @@ val site = {
           " when using Scala.js or Scala Native, " +
             "you must specify your dependencies slightly differently"
         ),
-        tools.map(_.render)
+        tools.map(_.render),
+        h2(id := "how-to-spot-it", hash("how-to-spot-it"), "How to spot it"),
+        raw(md.renderToString(os.pwd / "pages" / "how-to-spot-it.md"))
       )
     )
   )
@@ -126,7 +129,8 @@ object Styles extends StyleSheet.Inline {
 
   val hash = style(
     hoverOpacity,
-    fontSize(1.5.rem)
+    fontSize(1.5.rem),
+    marginRight(8.px)
   )
 
   val editMeLink = style(
