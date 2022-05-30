@@ -76,12 +76,12 @@ val site = {
         attr("content") := "width=device-width, initial-scale=1"
       ),
       meta(
-        property := "og.title",
+        property := "og:title",
         content := "You forgot a percentage sign or a colon"
       ),
-      meta(property := "og.type", content := "website"),
+      meta(property := "og:type", content := "website"),
       meta(
-        property := "og.image",
+        property := "og:image",
         content := "https://youforgotapercentagesignoracolon.com/assets/opengraph.png"
       ),
       scalatags.Text.tags2.style(
