@@ -20,17 +20,18 @@ case class Tool(name: String, link: String, page: os.Path) {
     .toLowerCase()
 
   val relPath = page.relativeTo(os.pwd)
-  // val url = "https://gthibu"
+  val editPath =
+    "https://github.com/indoorvivants/youforgotapercentagesignoracolon.com/blob/main/" + relPath.toString
 
   def render = div(
     h2(
       id := safeName,
       hash(safeName),
       " I'm using ",
-      a(href := link, name)
+      a(Styles.toolLink, href := link, name)
     ),
     raw(Tool.md.renderToString(page)),
-    p(a(Styles.editMeLink, href := "", "edit me on github"))
+    p(a(Styles.editMeLink, href := editPath, "edit me on github"))
   )
   private def hash(id: String) = a(Styles.hash, href := s"#$id", "#")
 }
@@ -131,6 +132,10 @@ object Styles extends StyleSheet.Inline {
   val editMeLink = style(
     fontSize.small,
     hoverOpacity
+  )
+
+  val toolLink = style(
+    &.visited - (textDecorationLine.none, color.black)
   )
 
   object global extends StyleSheet.Standalone {
