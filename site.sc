@@ -65,6 +65,8 @@ val site = {
   import scalatags.Text.all._
   import scalacss.ProdDefaults._
 
+  val property = attr("property")
+
   html(
     head(
       scalatags.Text.tags2.title("You forgot a percentage sign or a colon"),
@@ -72,6 +74,15 @@ val site = {
       meta(
         name := "viewport",
         attr("content") := "width=device-width, initial-scale=1"
+      ),
+      meta(
+        property := "og.title",
+        content := "You forgot a percentage sign or a colon"
+      ),
+      meta(property := "og.type", content := "website"),
+      meta(
+        property := "og.image",
+        content := "https://youforgotapercentagesignoracolon.com/assets/opengraph.png"
       ),
       scalatags.Text.tags2.style(
         Styles.global.render[String]
@@ -160,5 +171,11 @@ object Styles extends StyleSheet.Inline {
 }
 
 @main
-def entry(destination: os.Path) =
+def entry(destination: os.Path) = {
   os.write.over(destination / "index.html", site.render, createFolders = true)
+  os.copy(
+    os.pwd / "assets" / "opengraph.png",
+    destination / "assets" / "opengraph.png",
+    createFolders = true
+  )
+}
