@@ -47,3 +47,11 @@ Exception in thread "main" scala.scalanative.linker.LinkingException: Undefined 
 	at scala.scalanative.linker.Reach.reportMissing(Reach.scala:971)
 ```
 
+## When Running Tests
+
+```
+sbt:cats-effect-testing> scalatestJS/test
+[success] Total time: 0 s, completed Jun 21, 2022, 2:47:26 PM
+```
+
+Yes that's right! Your tests **won't run** and it will claim **success**!!
